@@ -21,4 +21,5 @@ from movies.views import MovieListAPI
 
 urlpatterns = [
     path("movies/", MovieListAPI.as_view(), name="movie_list_api"),
+
 ]

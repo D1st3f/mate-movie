@@ -22,26 +22,18 @@ class MovieSerializer(serializers.ModelSerializer):
         genres_data = validated_data.pop("movie_genres")
         directors_data = validated_data.pop("movie_directors")
         stars_data = validated_data.pop("movie_stars")
-
         movie = Movie.objects.create(**validated_data)
-
         movie.movie_genres.set(genres_data)
         movie.movie_directors.set(directors_data)
         movie.movie_stars.set(stars_data)
-
         return movie
 
     def update(self, instance, validated_data):
         genres_data = validated_data.pop("movie_genres", [])
         directors_data = validated_data.pop("movie_directors", [])
         stars_data = validated_data.pop("movie_stars", [])
-
         instance = super().update(instance, validated_data)
-
         instance.movie_genres.set(genres_data)
         instance.movie_directors.set(directors_data)
         instance.movie_stars.set(stars_data)
-
         return instance
-
-

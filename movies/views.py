@@ -11,9 +11,7 @@ from movies.serializers import MovieSerializer
 
 def movie_list_view(request: HttpRequest) -> HttpResponse:
     movies = Movie.objects.all()[:5]
-    context = {
-        "movies": movies,
-    }
+    context = {"movies": movies,}
     return render(request, "movies/movies_list.html", context=context)
 
 
@@ -25,12 +23,9 @@ class MovieListView(ListView):
 
     def get_queryset(self):
         genre_filter = self.request.GET.get("genre")
-
         queryset = super().get_queryset()
-
         if genre_filter:
             queryset = queryset.filter(movie_genres__genre__name=genre_filter)
-
         return queryset
 
 
