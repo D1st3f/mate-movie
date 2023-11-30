@@ -1,0 +1,60 @@
+{% extends 'base/_base.html' %}
+
+{% block title %}
+  Movies list
+
+{% endblock %}
+
+{% block content %}
+  <div class="row mb-2">
+  {% for movie in movies %}
+    <div class="col-md-6">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary">
+            {% for movie_genre in movie.movie_genres.all %}
+              {{ movie_genre.genre }},
+            {% endfor %}
+          </strong>
+          <h3 class="mb-0">{{ movie.name }}</h3>
+          <div class="mb-1 text-muted">Nov 12</div>
+          <p class="card-text mb-auto">{{ movie.description }}</p>
+          <a href="{% url 'movies:movie_list' %}" class="stretched-link">Continue reading</a>
+        </div>
+        <div class="col-auto d-none d-lg-block">
+          <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+
+  <hr>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item {% if not page_obj.has_previous %} disabled {% endif %}">
+        <a class="page-link" href="?page={% if page_obj.has_previous %} {{ page_obj.previous_page_number }} {% else %}# {% endif %}" tabindex="-1" aria-disabled="true">Previous</a>
+      </li>
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        </li>
+      {% endif %}
+      <li class="page-item disabled"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+          {{ page_obj.next_page_number }}
+        </a>
+      </li>
+    {% endif %}
+
+      <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+        <a class="page-link" href="?page={% if page_obj.has_next%}{{ page_obj.next_page_number }}{% else %}#{% endif %}">Next</a>
+      </li>
+
+    </ul>
+    <p>Total pages: {{ paginator.num_pages }}</p>
+  </nav>
+{% endblock %}
